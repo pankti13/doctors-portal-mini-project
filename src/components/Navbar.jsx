@@ -1,7 +1,7 @@
 import {useState} from "react";
 import  hamburger  from '../assets/icons/hamburger.svg';
 import cross from "../assets/icons/cross.svg";
-import headerLogo from "../assets/images/headerLogo.svg";
+import headerLogo from "../assets/icons/headerLogo.svg";
 import { navLinks } from "../constants";
 
 const Navbar = () => {
@@ -12,15 +12,15 @@ const Navbar = () => {
   }
 
   return (
-    <header className="sm:px-16 px-8 py-8 absolute z-10 w-full">
+    <header className="sm:px-16 px-8 py-5 absolute z-10 w-full">
       <nav className="flex justify-between items-center max-w-screen-xl mx-auto">
         <a href="/" className="flex items-center">
           <img
             src={headerLogo}
             alt="Logo"
             width={149}
-            height={79}
-            className="m-0 w-[149px] h-[79px]"
+            height={59}
+            className="m-0 w-[149px] h-[59px]"
           />
           <span className="text-lg font-semibold">
             Medical Expert System for Disease Prediction
@@ -33,7 +33,7 @@ const Navbar = () => {
               <li key={item.label}>
                 <a
                   href={item.href}
-                  className="font-montserrat leading-normal text-lg text-gray-700 hover:text-gray-600"
+                  className="font-montserrat leading-normal text-lg text-gray-600 hover:text-gray-800"
                 >
                   {item.label}
                 </a>
@@ -41,7 +41,7 @@ const Navbar = () => {
             ))}
           </ul>
         </div>
-        <div className="flex gap-2 text-lg leading-normal font-medium font-montserrat max-lg:hidden mr-24">
+        <div className="flex gap-2 text-lg leading-normal font-medium font-montserrat max-lg:hidden mr-24 text-gray-800 hover:text-gray-500">
           <a href="/">Sign in</a>
         </div>
         {/* Hamburger icon */}
