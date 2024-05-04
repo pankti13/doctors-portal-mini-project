@@ -1,6 +1,9 @@
 import contribute from '../assets/icons/contribute.svg'
 import improvements from '../assets/icons/improvements.svg'
 import feedback from '../assets/icons/feedback.svg'
+import facebook from "../assets/icons/facebook.svg";
+import instagram from "../assets/icons/instagram.svg";
+import twitter from "../assets/icons/twitter.svg";
 
 export const navLinks = [
   { href: "#home", label: "Home" },
@@ -25,4 +28,10 @@ export const cardsData = [
     label: "Give Feedback",
     subtext: "Give us your valuable feedback and suggestions to help us improve.",
   },
+];
+
+export const socialMedia = [
+  { src: facebook, alt: "facebook logo" },
+  { src: twitter, alt: "twitter logo" },
+  { src: instagram, alt: "instagram logo" },
 ];
