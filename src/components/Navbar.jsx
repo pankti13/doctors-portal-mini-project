@@ -14,7 +14,7 @@ const Navbar = () => {
 
   return (
     <header className="fixed top-0 left-0 w-full bg-white sm:px-16 px-8 py-5 z-10">
-      <nav className="flex justify-between items-center max-w-screen-xl mx-auto">
+      <nav className="flex justify-between items-center ml-0 max-w-screen-xl mx-auto">
         <a href="/" className="flex items-center">
           <img
             src={headerLogo}
@@ -78,6 +78,9 @@ const Navbar = () => {
                   </a>
                 </div>
               ))}
+              <div className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-200 cursor-pointer">
+                <a href="/">Sign in</a>
+              </div>
             </div>
           </div>
         )}

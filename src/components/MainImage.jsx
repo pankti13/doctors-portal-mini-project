@@ -24,6 +24,7 @@ const MainImage = () => {
             backgroundColor="bg-sky-300"
             borderColor="border border-sky-300"
             textColor="text-black"
+            iconPosition="after"
           />
         </div>
       </div>

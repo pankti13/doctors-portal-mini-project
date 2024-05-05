@@ -5,6 +5,7 @@ const Button = ({
   textColor,
   borderColor,
   fullWidth,
+  iconPosition
 }) => {
   return (
     <button
@@ -15,12 +16,18 @@ const Button = ({
           : "bg-customblue text-white border-customblue"
       } rounded-full ${fullWidth && "w-full"}`}
     >
-      {label}
-
-      {iconUrl && (
+      {iconPosition === "before" && iconUrl && (
         <img
           src={iconUrl}
-          alt="arrow right icon"
+          alt="Icon"
+          className="mr-2 rounded-full bg-white w-5 h-5"
+        />
+      )}
+      {label}
+      {iconPosition === "after" && iconUrl && (
+        <img
+          src={iconUrl}
+          alt="Icon"
           className="ml-2 rounded-full bg-white w-5 h-5"
         />
       )}
