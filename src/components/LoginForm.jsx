@@ -1,5 +1,6 @@
 import Button from "./Button";
 import google from '../assets/icons/google.svg'
+import { Link } from "react-router-dom";
 
 const LoginForm = () => {
   return (
@@ -54,12 +55,12 @@ const LoginForm = () => {
           </form>
           <div className="mt-3">
             <span>New to Medical Expert System?</span>
-            <a
-              href="./"
+            <Link 
+              to="/signup"
               className="ml-2 text-customblue font-bold cursor-pointer"
             >
               Join Now
-            </a>
+            </Link>
           </div>
         </div>
       </div>
