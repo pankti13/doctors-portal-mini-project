@@ -3,6 +3,7 @@ import  hamburger  from '../assets/icons/hamburger.svg';
 import cross from "../assets/icons/cross.svg";
 import headerLogo from "../assets/icons/headerLogo.svg";
 import { navLinks } from "../constants";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setisMenuOpen]=useState(false);
@@ -42,7 +43,7 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="flex gap-2 text-lg leading-normal font-medium font-montserrat max-lg:hidden mr-24 text-gray-800 hover:text-gray-500">
-          <a href="/">Sign in</a>
+          <Link to="/login">Sign in</Link>
         </div>
         {/* Hamburger icon */}
         <div className="-mr-2 flex md:hidden">
