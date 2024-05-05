@@ -3,7 +3,7 @@ import {Navbar, MainImage, About, Cards, Footer} from "./components";
 const App = () => (
   <main className="relative">
     <Navbar />
-    <div className="sm:px-5 px-5 sm:pt-24 pb- w-full">
+    <div className="sm:px-5 px-5 sm:pt-24 pb-0 w-full">
       <MainImage />
     </div>
     <div className="sm:px-16 px-8 mt-2 sm:py-24 py-12 bg-customblue">
