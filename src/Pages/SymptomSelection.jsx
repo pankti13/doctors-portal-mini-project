@@ -1,15 +1,94 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import doctor_image_url from "../assets/images/doctor-img.jpg";
+import { DiseaseService } from "../services/DiseaseService";
+import DescriptionController from "../services/DescriptionService";
 
 const SymptomSelection = () => {
-  const options = [
-    { name: 'Berlin', description: 'Berlin is the capital of Germany.' },
-    { name: 'Madrid', description: 'Madrid is the capital of Spain.' },
-    { name: 'Paris', description: 'Paris is the capital of France.' }
-  ];
+
   const question = 'Choose the symptom you are affected with:';
   const [selectedOption, setSelectedOption] = useState('');
   const [severity, setSeverity] = useState(1);
+  const diseaseService = useRef(null);
+  const descriptionService = new DescriptionController();
+  const [symptoms, setSymptoms] = useState([]);
+  const [symptomNames, setSymptomNames] = useState([]);
+  const descriptions = useRef(null);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        await Promise.all([
+          diseaseService.current = new DiseaseService(),
+          diseaseService.current.loadDiseasesData(),
+          descriptionService.loadDescription(),
+        ]);
+        const descriptionsOfDiseases = descriptionService.diseases;
+        descriptions.current = descriptionsOfDiseases;
+        getCurrentSymptoms(descriptions.current);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  const getCurrentSymptoms = (descriptionsOfDiseases) => {
+    const symptomsHere = diseaseService.current.getSymptoms();
+    if (symptomsHere.length === 0) {
+      terminate();
+      return;
+    }
+    var symptomsWithDescriptions = [];
+    symptomsHere.forEach((symptom) => {
+      symptomsWithDescriptions.push({
+        name: symptom,
+        description: descriptionsOfDiseases.get(symptom).description
+      })
+    });
+    symptomsWithDescriptions.push({
+      name: 'None of these',
+      description: 'I am not suffering from any of these given symptoms here.'
+    });
+    symptomsWithDescriptions.push({
+      name: 'I have no other symptoms',
+      description: 'I am not suffering from any rest symptoms.'
+    });
+    setSymptomNames(symptomsHere);
+    setSymptoms(symptomsWithDescriptions);
+  };
+
+  const selectSymptom = (symptom) => {
+    if (symptom == 'I have no other symptoms') {
+      // terminate
+    }
+    diseaseService.current.setCritical(symptom, severity);
+    diseaseService.current.selectSymptom(symptom);
+  };
+
+  const deleteSymptoms = () => {
+    diseaseService.current.deleteSymptoms(symptomNames);
+  };
+
+  const terminate = () => {
+    const selected = diseaseService.current.mySelectedSymptoms();
+    console.log(selected);
+    console.log('Terminate here');
+  };
+
+  const handleSubmit = () => {
+    if (selectedOption === 'I have no other symptoms') {
+      terminate();
+    }
+    else if (selectedOption === 'None of these') {
+      deleteSymptoms();
+      getCurrentSymptoms(descriptions.current);
+    }
+    else {
+      selectSymptom(selectedOption);
+      getCurrentSymptoms(descriptions.current);
+    }
+  };
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
@@ -17,11 +96,6 @@ const SymptomSelection = () => {
 
   const handleSliderChange = (event) => {
     setSeverity(Number(event.target.value));
-  };
-
-  const handleSubmit = () => {
-    console.log("Selected option:", selectedOption);
-    console.log("Severity level:", severity);
   };
 
   return (
@@ -32,16 +106,15 @@ const SymptomSelection = () => {
             className="bg-white rounded-[20px] px-10 py-10 mt-5 max-h-screen"
             style={{
               overflowY: 'auto',
-              /* Hide scrollbar for WebKit browsers (Chrome, Safari) */
-              scrollbarWidth: 'none', /* Hide scrollbar for Firefox */
-              '-ms-overflow-style': 'none', /* Hide scrollbar for Internet Explorer and Edge */
+              scrollbarWidth: 'none',
+              '-ms-overflow-style': 'none',
             }}
           >
             <p className="mt-0 break-words font-montserrat text-large leading-normal text-slate-700 p-4">
               {question}
             </p>
             <div className="answer-section">
-              {options.map((option, index) => (
+              {symptoms.map((option, index) => (
                 <div key={index} className="mb-4">
                   <label
                     htmlFor={`option-${index}`}
@@ -76,7 +149,7 @@ const SymptomSelection = () => {
                         <p>{option.description}</p>
                       </div>
                     </div>
-                    {selectedOption === option.name && (
+                    {selectedOption === option.name && index < (symptoms.length - 2) && (
                       <div className="mt-4">
                         <p className="text-slate-700 mb-2">Select Severity Level:</p>
                         <input 
@@ -103,7 +176,7 @@ const SymptomSelection = () => {
                 onClick={handleSubmit} 
                 className="bg-blue-500 text-white font-bold py-2 px-8 rounded-full focus:outline-none w-64"
               >
-                Submit
+                Next
               </button>
             </div>
           </div>
