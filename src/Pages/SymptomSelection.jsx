@@ -72,7 +72,9 @@ const SymptomSelection = () => {
 
   const terminate = () => {
     const selected = diseaseService.current.mySelectedSymptoms();
+    const potentialDiseases = diseaseService.current.getPotentialDiseases();
     console.log(selected);
+    console.log(potentialDiseases);
     console.log('Terminate here');
   };
 

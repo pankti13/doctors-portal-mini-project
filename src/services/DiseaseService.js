@@ -20,6 +20,15 @@ export class DiseaseService {
                 symptomsMap.set(symptom.name, { probability: symptom.probability, severity: symptom.severity });
               });
               this.diseasesMap.set(key, symptomsMap);
+            });
+            Object.entries(dataset).forEach(([key, value]) => {
+              const symptomsJson = value.symptoms;
+              const symptomsMap = new Map();
+              
+              symptomsJson.forEach((symptomJson) => {
+                const symptom = Symptom.fromJson(symptomJson);
+                symptomsMap.set(symptom.name, { probability: symptom.probability, severity: symptom.severity });
+              });
               this.tempDataset.set(key, symptomsMap);
             });
         } catch (error) {
@@ -126,8 +135,10 @@ export class DiseaseService {
     
         const potentialDiseases = [];
         for (let i = 0; i < Math.min(temp.length, 5); i++) {
+            const prob = (temp[i].value * 100).toFixed(3);
             potentialDiseases.push({
                 disease: temp[i].disease,
+                probability: prob,
                 criticalLevel: criticalLevelObtained.get(temp[i].disease)
             });
         }
